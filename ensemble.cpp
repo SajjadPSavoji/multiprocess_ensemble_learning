@@ -12,7 +12,7 @@ int main(int argc, char const *argv[])
 
     make_n_lin_clf(n);
     make_voter();
-    wait_till_done(n);
+    wait_till_done(n + 1);
 
     cout<<"parent done"<<endl;
 

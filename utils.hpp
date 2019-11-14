@@ -37,7 +37,9 @@ void make_n_lin_clf(int n)
 
 void make_voter()
 {
-    execvp(vt_args[0],vt_args);
+    int pid = fork();
+    if(pid == 0) //make child (voter)
+        execvp(vt_args[0],vt_args);
 }
 
 void wait_till_done(int n)
