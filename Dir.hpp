@@ -9,6 +9,8 @@ aimed to simplify it's use for unix users
 #include <string.h>
 #include <vector>
 
+#define SLASH '/'
+
 class Dir
 {
 private:
@@ -35,12 +37,16 @@ std::vector<std::string> Dir::get_sub_dir()
     struct dirent *entry = nullptr;
     DIR *dp = nullptr;
 
+    std::string base = std::string(this->dir_name);
+    if(base.back() != SLASH)
+        base.push_back(SLASH);
+    
     dp = opendir(this->dir_name);
     if (dp != nullptr) {
         while ((entry = readdir(dp)))
         {
-            sub_dirs.push_back(entry->d_name);
-            if(sub_dirs.back() == "." || sub_dirs.back() == "..")
+            sub_dirs.push_back(base+ std::string(entry->d_name));
+            if(sub_dirs.back() == base + "." || sub_dirs.back() == base + "..")
                 sub_dirs.pop_back();
         }
     }
