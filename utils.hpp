@@ -41,6 +41,7 @@ string valid_label_path(const char* valid_dir);
 void send_info_to_clf( vector<string> pipe_names,const char* valid_dir ,  vector<string> &dirs);
 void make_pipe(int pipe_number , vector<string> &pipe_names);
 void del_pipes(vector<string> pipe_names);
+void send_info_to_voter(vector<string> pipe_names , int n);
 
 
 void del_pipes(vector<string> pipe_names)
@@ -107,7 +108,12 @@ void send_info_to_clf( vector<string> pipe_names,const char* valid_dir ,  vector
         close(fd);
     }
 }
-
+void send_info_to_voter(vector<string> pipe_names , int n)
+{
+    int fd = open(pipe_names.back().c_str() , O_WRONLY);
+    write(fd , (to_string(n)+ CRAP).c_str() , strlen(to_string(n).c_str()) + 1);
+    close(fd);
+}
 
 string valid_data_path(const char* valid_dir)
 {

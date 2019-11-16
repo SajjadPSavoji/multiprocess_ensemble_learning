@@ -43,10 +43,10 @@ float CSV::acc(std::vector<std::string> est)
     float count = 0.0;
     for (size_t i = 1; i < this->data.size(); i++)
     {
-        if(data[i][0] == est[i])
+        if(data[i][0] == est[i-1])
             count++;
     }
-    return count/float(data.size());
+    return count/float(data.size()-1);
 }
 
 CSV::CSV(char* filename, std::vector<std::vector<std::string> > new_data, char delm = ','):

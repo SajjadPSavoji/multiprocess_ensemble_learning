@@ -13,6 +13,13 @@
 
 using namespace std;
 
+int n_clf()
+{
+    char buff[BUFF_SIZE];
+    read_from_pipe(rcv_pipe_name() , buff);
+    return atoi(buff);
+}
+
 int* init_pipes(int n)
 {
     int* fds = (int*)malloc((n+1)*sizeof(int));

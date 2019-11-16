@@ -1,7 +1,8 @@
 #include "voter_utils.hpp"
 int main(int argc, char const *argv[])
 {
-    int n = atoi(argv[1]);
+    int n = n_clf();
+    
     // cout<<"voter : "<<n<<endl;
     int* fds = init_pipes(n);
     vector<vector<string>> data = fetch_data(fds , n);

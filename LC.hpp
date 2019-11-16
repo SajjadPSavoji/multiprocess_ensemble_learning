@@ -22,7 +22,7 @@ float str2float(std::string s);
 std::vector<std::string> LC::estimate_csv(CSV csv)
 {
     std::vector<std::string> ests;
-    for (size_t i = 0; i < csv.size(); i++)
+    for (size_t i = 1; i < csv.size(); i++)
     {
         ests.push_back(this->estimate_instance(csv[i]));
     }

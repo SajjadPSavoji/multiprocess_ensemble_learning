@@ -21,6 +21,7 @@ int main(int argc, char const *argv[])
     // }
 
     send_info_to_clf(pipe_names , valid_dir , weight_files);
+    send_info_to_voter(pipe_names , n);
     wait_till_done(n);
     vector<string> res = result(pipe_names);
     wait_till_done(1);
