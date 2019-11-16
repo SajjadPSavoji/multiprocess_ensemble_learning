@@ -14,10 +14,10 @@ public:
     ~LC(){}
     std::string estimate_instance(std::vector<std::string> feature);
     std::vector<std::string> estimate_csv(CSV csv);
-    int dot(std::vector<std::string> feature , std::vector<std::string> weight);
+    float dot(std::vector<std::string> feature , std::vector<std::string> weight);
 
 };
-int str2int(std::string s);
+float str2float(std::string s);
 
 std::vector<std::string> LC::estimate_csv(CSV csv)
 {
@@ -32,7 +32,7 @@ std::vector<std::string> LC::estimate_csv(CSV csv)
 std::string LC::estimate_instance(std::vector<std::string> feature)
 {
     feature.push_back(ONE_STR);
-    std::vector<int> scores;
+    std::vector<float> scores;
     for (size_t i = 1; i < this->weights.size(); i++)
     {
         scores.push_back(this->dot(feature , weights[i]));
@@ -40,18 +40,18 @@ std::string LC::estimate_instance(std::vector<std::string> feature)
     return std::to_string(std::max_element(scores.begin(),scores.end()) - scores.begin()); 
 }
 
-int LC::dot(std::vector<std::string> feature , std::vector<std::string> weight)
+float LC::dot(std::vector<std::string> feature , std::vector<std::string> weight)
 {
-    int sum = 0;
+    float sum = 0;
     for (size_t i = 0; i < weight.size(); i++)
     {
-        sum += str2int(weight[i]) * str2int(feature[i]);
+        sum += str2float(weight[i]) * str2float(feature[i]);
     }
     return sum;
 }
-int str2int(std::string s){
+float str2float(std::string s){
     std::stringstream stream(s);
-    int x = 0;
+    float x = 0;
     stream >> x;
     return x; 
 }

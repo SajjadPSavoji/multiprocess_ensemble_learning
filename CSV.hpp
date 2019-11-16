@@ -41,7 +41,7 @@ public:
 float CSV::acc(std::vector<std::string> est)
 {
     float count = 0.0;
-    for (size_t i = 0; i < this->data.size(); i++)
+    for (size_t i = 1; i < this->data.size(); i++)
     {
         if(data[i][0] == est[i])
             count++;

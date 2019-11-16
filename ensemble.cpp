@@ -39,6 +39,14 @@ int main(int argc, char const *argv[])
     // cout<<res<<endl;
     // cout<<res.size()<<endl;
     // cout<<labels.size()<<endl;
+
+    // for (size_t i = 1; i < labels.size(); i++)
+    // {
+    //     cout<<labels[i][0]<<",";
+    // }
+    // cout<<endl;
+    
+
     cout<<std::fixed;
     cout<<"Accuracy: "<<std::setprecision(2)<<labels.acc(res)*100<<"%"<<endl;
     
