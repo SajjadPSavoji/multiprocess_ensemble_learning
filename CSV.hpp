@@ -26,15 +26,60 @@ public:
     CSV(char* filename, char delm = ',') :
 			fileName(filename), delimeter(delm)
 	{ }
- 
+    CSV(CSV &csv);
+    CSV(char* filename, std::vector<std::vector<std::string> > new_data , char delm);
 	// Function to fetch data from a CSV File
     void fetch_data();
     void store_data(std::string file_name);
 	std::vector<std::vector<std::string> > getData(){return data;}
-    std::vector<std::string>& operator[](int i){return data[i];}
+    std::vector<std::string>& operator[](size_t i){return data[i];}
     std::vector<std::string>& keys(){return data[0];}
     int size()const{return data.size();}
+    float acc(std::vector<std::string> est);
 };
+
+float CSV::acc(std::vector<std::string> est)
+{
+    float count = 0.0;
+    for (size_t i = 0; i < this->data.size(); i++)
+    {
+        if(data[i][0] == est[i])
+            count++;
+    }
+    return count/float(data.size());
+}
+
+CSV::CSV(char* filename, std::vector<std::vector<std::string> > new_data, char delm = ','):
+    fileName(filename), delimeter(delm)
+{
+    for (size_t i = 0; i < new_data.size(); i++)
+    {
+        std::vector<std::string> row;
+        for (size_t j = 0; j < new_data[i].size(); j++)
+        {
+            row.push_back(new_data[i][j]);
+        }
+        this->data.push_back(row);
+        row.clear();    
+    }   
+}
+
+CSV::CSV(CSV &csv)
+{
+    this->fileName = csv.fileName;
+    this->delimeter = csv.delimeter;
+    this->data.clear();
+    for (size_t i = 0; i < csv.size(); i++)
+    {
+        std::vector<std::string> row;
+        for (size_t j = 0; j < csv[i].size(); j++)
+        {
+            row.push_back(csv[i][j]);
+        }
+        this->data.push_back(row);
+        row.clear();    
+    }   
+}
  
 /*
 * Parses through csv file line by line and returns the data
@@ -76,7 +121,7 @@ std::ostream& operator<< (std::ostream& stream , CSV& csv)
     {
         for (size_t j = 0; j < csv[i].size(); j++)
         {
-            stream<<csv[i][j]<<",";
+            stream<<csv[i][j]<<SPACE;
         }
         stream<<std::endl;
     }

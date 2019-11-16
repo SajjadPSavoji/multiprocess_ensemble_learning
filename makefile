@@ -7,10 +7,10 @@ all: EnsembleClassifier.o linear_clf.o voter.o
 EnsembleClassifier.o : ensemble.cpp  utils.hpp Dir.hpp
 	$(CC) $(CFLAGS) $(STD) ensemble.cpp  -o EnsembleClassifier.o
 
-linear_clf.o: linear_clf.cpp lc_utils.hpp CSV.hpp
+linear_clf.o: linear_clf.cpp lc_utils.hpp CSV.hpp LC.hpp
 	$(CC) $(CFLAGS) $(STD) linear_clf.cpp -o linear_clf.o
 
-voter.o: voter.cpp
+voter.o: voter.cpp voter_utils.hpp
 	$(CC) $(CFLAGS) $(STD) voter.cpp -o voter.o
 
 clean:
