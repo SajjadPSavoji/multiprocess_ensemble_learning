@@ -12,7 +12,7 @@
 #include "LC.hpp"
 
 #define PIPE_NAME_PRFIX "PIP_"
-#define BUFF_SIZE 2048
+#define BUFF_SIZE 4096
 #define DELIM 0
 #define ONE 1
 #define ZERO 0

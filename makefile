@@ -16,4 +16,3 @@ voter.o: voter.cpp voter_utils.hpp lc_utils.hpp LC.hpp  CSV.hpp
 clean:
 	rm *.o
 	rm *.out
-

@@ -17,7 +17,7 @@
 #define LIN_CLF_FILE "./linear_clf.o"
 #define VOTE_FILE "./voter.o"
 #define PIPE_NAME_PRFIX "PIP_"
-#define BUFF_SIZE 2048
+#define BUFF_SIZE 4096
 #define DELIM 0
 #define PHONY '*'
 #define ONE 1
@@ -108,6 +108,7 @@ void send_info_to_clf( vector<string> pipe_names,const char* valid_dir ,  vector
         close(fd);
     }
 }
+
 void send_info_to_voter(vector<string> pipe_names , int n)
 {
     int fd = open(pipe_names.back().c_str() , O_WRONLY);
