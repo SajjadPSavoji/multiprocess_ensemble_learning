@@ -12,10 +12,13 @@ int main(int argc, char const *argv[])
     int n = weight_files.size();
     vector<string> pipe_names;
 
+    // init un_named pipe params
+    init_send_pipe(n);
+
     // make n linear lassifier and one voter as classifier fusion method
     make_n_lin_clf(n , pipe_names);
     make_voter(n , pipe_names);
-
+    
     // send data to each linear classifier
     send_info_to_clf(pipe_names , valid_dir , weight_files);
     send_info_to_voter(pipe_names , n);

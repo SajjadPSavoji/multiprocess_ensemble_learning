@@ -25,9 +25,19 @@
 using namespace std;
 
 
+
 char* rcv_pipe_name()
 {
     return strdup((string(PIPE_NAME_PRFIX) + to_string(getpid())).c_str());
+}
+
+void read_from_unnamed_pipe(char const *argvs[] , char* buff)
+{
+    int pip[2];
+    pip[0] = atoi(argvs[1]);
+    pip[1] = atoi(argvs[2]);
+    close(pip[1]);
+    read(pip[0] , buff , BUFF_SIZE);
 }
 
 void read_from_pipe(char* pipe_name , char* buff)

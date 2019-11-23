@@ -10,6 +10,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <iomanip>
+#include <vector>
 
 #include "Dir.hpp"
 #include "CSV.hpp"
@@ -20,6 +21,7 @@
 #define BUFF_SIZE 4096
 #define DELIM 0
 #define PHONY '*'
+#define TWO 2
 #define ONE 1
 #define ZERO 0
 #define CRAP '&'
@@ -28,10 +30,14 @@
 #define DATASET "dataset.csv"
 #define LABEL "labels.csv"
 
-char* lc_args[] = {LIN_CLF_FILE , NULL};
-char* vt_args[] = {VOTE_FILE , NULL};
-
 using namespace std;
+
+char* lc_args[] = {LIN_CLF_FILE , NULL , NULL};
+char* vt_args[] = {VOTE_FILE , NULL , NULL};
+vector<int> pip_0;
+vector<int> pip_1;
+int pip[TWO];
+
 
 void make_n_lin_clf(int n , vector<string> &pipe_names);
 void make_voter(int n , vector<string> &pipe_names);
@@ -42,7 +48,24 @@ void send_info_to_clf( vector<string> pipe_names,const char* valid_dir ,  vector
 void make_pipe(int pipe_number , vector<string> &pipe_names);
 void del_pipes(vector<string> pipe_names);
 void send_info_to_voter(vector<string> pipe_names , int n);
+void init_send_pipe();
+void init_lc_args();
 
+void init_send_pipe(int n)
+{
+    for (size_t i = 0; i < n; i++)
+    {
+        pipe(pip);
+        pip_0.push_back(pip[ZERO]);
+        pip_1.push_back(pip[ONE]);
+    }
+}
+
+void init_lc_args(int pip_0 , int pip_1)
+{
+    lc_args[ONE] = strdup(to_string(pip_0).c_str());
+    lc_args[TWO] = strdup(to_string(pip_1).c_str());
+}
 
 void del_pipes(vector<string> pipe_names)
 {
@@ -68,7 +91,10 @@ void make_n_lin_clf(int n , vector<string> &pipe_names)
         if(pid)
             make_pipe(pid , pipe_names);
         else
+        {
+            init_lc_args(pip_0[i] , pip_1[i]);
             execvp(lc_args[0],lc_args);
+        }
     }
 }
 
@@ -97,12 +123,18 @@ void send_info_to_clf( vector<string> pipe_names,const char* valid_dir ,  vector
     string temp = "";
     for (size_t i = 0; i < pipe_names.size()-1; i++)
     {
-        int fd = open(pipe_names[i].c_str() , O_WRONLY);
+        // make message
         temp += dirs[i];
         temp.push_back(CRAP);
         temp += valid_data_path(valid_dir);
         temp.push_back(CRAP);
 
+        // send via un_named pipe
+        write(pip_1[i] , temp.c_str() , temp.size());
+        close(pip_1[i]);
+
+        // send via named pipe
+        int fd = open(pipe_names[i].c_str() , O_WRONLY);
         write(fd ,temp.c_str(), temp.size());
         temp = "";
         close(fd);

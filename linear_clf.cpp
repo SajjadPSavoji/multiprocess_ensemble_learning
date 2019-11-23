@@ -1,14 +1,16 @@
 #include "lc_utils.hpp"
 int main(int argc, char const *argv[])
-{
+{   
     // local variables
+    char buff_unnamed[BUFF_SIZE] = {PHONY};
     char buff[BUFF_SIZE] = {PHONY};
     char weight_file[BUFF_SIZE] = {PHONY};
     char valid_file[BUFF_SIZE] = {PHONY};
 
     // get data from ensembler
+    read_from_unnamed_pipe(argv , buff_unnamed);
     read_from_pipe(rcv_pipe_name() , buff);
-    split(buff , weight_file , valid_file);    
+    split(buff_unnamed , weight_file , valid_file);    
 
     // read csv files
     CSV weights(weight_file);

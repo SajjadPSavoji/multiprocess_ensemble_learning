@@ -27,7 +27,6 @@ int* init_pipes(int n)
     {
         mkfifo(to_string(i).c_str() , O_CREAT | S_IRWXU);
         fds[i] = open(to_string(i).c_str(), O_RDONLY);
-        // cout<<to_string(i).c_str()<<endl;
     }
     return fds;
 }
@@ -111,7 +110,6 @@ void send_result(vector<string> result , char* pipe_name)
         temp.push_back(CRAP);
     }
     int fd = open(pipe_name , O_WRONLY);
-    // cout<<temp<<endl;
     write(fd , temp.c_str() , temp.size()+1);
     close(fd);
 }
